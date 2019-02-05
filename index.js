@@ -45,6 +45,14 @@ module.exports = class SpeedMeasurePlugin {
         ) ||
         (plugin.constructor && plugin.constructor.name) ||
         "(unable to deduce plugin name)";
+      if (
+        this.options &&
+        Array.isArray(this.options.disabledPlugins) &&
+        this.options.disabledPlugins.indexOf(pluginName) !== -1
+      ) {
+        console.warn("not measuring " + pluginName);
+        return plugin;
+      }
       return new WrappedPlugin(plugin, pluginName, this);
     });
 
